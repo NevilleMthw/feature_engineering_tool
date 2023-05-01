@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-class ModelVisualization:
+class DatasetImportWindow:
     """A class that creates a UI for loading and visualizing a model"""
 
     def __init__(self, master):
@@ -17,32 +17,34 @@ class ModelVisualization:
 
         self.master = master
 
-        self.load_model_button = ttk.Button(master, text="Load Model", command=self.load_model)
-        self.load_model_button.pack()
+        self.image_paths = []
+        self.images = []
 
-        self.visualize_model_button = ttk.Button(master, text="Visualize Model", command=self.visualize_model, state='disabled')
-        self.visualize_model_button.pack()
+        self.heading_Label = tk.Label(master, text="Data Import Section", font=("Arial", 30))
+        self.heading_Label.pack(pady=20)
 
-        self.canvas = tk.Canvas(master, width=500, height=500)
+        self.data_Import_Button = tk.Button(master, text="Dataset Import", command=self.load_data, width=15, height=2)
+        self.data_Import_Button.pack(anchor='center', pady=50)
+
+        self.data_Imported_Label = tk.Label(master, text="Data Imported, saved to memory. Proceed to next tab.", font=("Arial", 12))
+        self.data_Imported_Label.pack(pady=10)
+
+        # self.visualize_model_button = ttk.Button(master, text="Visualize Model", command=self.visualize_model, state='disabled')
+        # self.visualize_model_button.pack()
+
+        self.canvas = tk.Canvas(master, width=450, height=300)
         self.canvas.pack()
 
-    def load_model(self):
+    def load_data(self):
         """Enables the visualize_model_button"""
 
-        self.visualize_model_button['state'] = 'normal'
+        self.data_Import_Button['state'] = 'normal'
 
-    def visualize_model(self):
-        """Visualizes a randomly generated graph using matplotlib"""
+    # def get_model_graph(self):
+    #     """Generates a random 3D graph"""
 
-        graph = self.get_model_graph()
-        plt.imshow(graph)
-        plt.show()
-
-    def get_model_graph(self):
-        """Generates a random 3D graph"""
-
-        graph = np.random.rand(500, 500, 3)
-        return graph
+    #     graph = np.random.rand(500, 500, 3)
+    #     return graph
 
 
 class FeatureVisualization:
@@ -178,15 +180,15 @@ class MainApplication:
         self.notebook = ttk.Notebook(self.master)
         self.notebook.pack(fill='both', expand=True)
 
-        self.model_tab = ttk.Frame(self.notebook)
+        self.data_tab = ttk.Frame(self.notebook)
         self.feature_tab = ttk.Frame(self.notebook)
         self.selection_tab = ttk.Frame(self.notebook)
 
-        self.notebook.add(self.model_tab, text='Model Visualization')
+        self.notebook.add(self.data_tab, text='Dataset Import Window')
         self.notebook.add(self.feature_tab, text='Feature Visualization')
         self.notebook.add(self.selection_tab, text='Feature Selection')
 
-        self.model_viz = ModelVisualization(self.model_tab)
+        self.data_import = DatasetImportWindow(self.data_tab)
         self.feature_viz = FeatureVisualization(self.feature_tab)
         self.feature_sel = FeatureSelection(self.selection_tab)
 
