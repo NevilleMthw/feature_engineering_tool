@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-class DatasetImportWindow:
+class DatasetImportWindow():
     """A class that creates a UI for loading and visualizing a model"""
 
     def __init__(self, master):
@@ -20,25 +20,33 @@ class DatasetImportWindow:
         self.image_paths = []
         self.images = []
 
-        self.heading_Label = tk.Label(master, text="Data Import Section", font=("Arial", 30))
+        self.heading_Label = tk.Label(
+            master, text="Data Import Section", font=("Arial", 30)
+        )
         self.heading_Label.pack(pady=20)
 
-        self.data_Import_Button = tk.Button(master, text="Dataset Import", command=self.load_data, width=15, height=2)
-        self.data_Import_Button.pack(anchor='center', pady=50)
+        self.data_Import_Button = tk.Button(
+            master, text="Dataset Import", command=self.load_data, width=15, height=2
+        )
+        self.data_Import_Button.pack(anchor="center", pady=50)
 
-        self.data_Imported_Label = tk.Label(master, text="Data Imported, saved to memory. Proceed to next tab.", font=("Arial", 12))
+        self.data_Imported_Label = tk.Label(
+            master,
+            text="Data Imported, saved to memory. Proceed to next tab.",
+            font=("Arial", 12),
+        )
         self.data_Imported_Label.pack(pady=10)
 
         # self.visualize_model_button = ttk.Button(master, text="Visualize Model", command=self.visualize_model, state='disabled')
         # self.visualize_model_button.pack()
 
-        self.canvas = tk.Canvas(master, width=450, height=300)
+        self.canvas = tk.Canvas(master, width=700, height=500)
         self.canvas.pack()
 
     def load_data(self):
         """Enables the visualize_model_button"""
 
-        self.data_Import_Button['state'] = 'normal'
+        self.data_Import_Button["state"] = "normal"
 
     # def get_model_graph(self):
     #     """Generates a random 3D graph"""
@@ -47,7 +55,7 @@ class DatasetImportWindow:
     #     return graph
 
 
-class FeatureVisualization:
+class FeatureExtractWindow():
     """A class that creates a UI for loading and visualizing a feature"""
 
     def __init__(self, master):
@@ -59,34 +67,77 @@ class FeatureVisualization:
 
         self.master = master
 
-        self.load_feature_button = ttk.Button(master, text="Load Feature", command=self.load_feature)
-        self.load_feature_button.pack()
+        self.heading_Label = tk.Label(
+            master, text="Feature Extraction Section", font=("Arial", 30)
+        )
+        self.heading_Label.pack(pady=20)
 
-        self.visualize_feature_button = ttk.Button(master, text="Visualize Feature", command=self.visualize_feature, state='disabled')
-        self.visualize_feature_button.pack()
+        self.heading_Label = tk.Label(
+            master, text="Please choose from the following models, through which the features will be extracted.", font=("Arial", 20)
+        )
+        self.heading_Label.pack(pady=20)
 
-        self.canvas = tk.Canvas(master, width=500, height=500)
+        self.load_mobilenet_model = tk.Button(
+            master, text="MobileNet-V2", command=self.mobilenetv2_model
+        )
+        self.load_mobilenet_model.pack(pady=10)
+
+        self.load_vgg_model = tk.Button(
+            master, text="VGG-16", command=self.vgg16_model
+        )
+        self.load_vgg_model.pack(pady=10)
+
+        # self.load_resnet_model = tk.Button(
+        #     master, text="ResNet-50", command=self.resnet50_model
+        # )
+        # self.load_resnet_model.pack()
+
+        self.load_inception_model = tk.Button(
+            master, text="Inception-V3", command=self.inceptionv3_model
+        )
+        self.load_inception_model.pack(pady=10)
+
+        self.note_label = tk.Label(
+            master, text="Note: Only one model must be chosen.", font=("Arial", 15, "bold")
+        )
+        self.note_label.pack(pady=20)
+
+        self.model_imported_label = tk.Label(
+            master, text="Model imported, saved to memory. Proceed to next tab.", font=("Arial", 12)
+        )
+        self.model_imported_label.pack(pady=10)
+
+
+        # self.visualize_feature_button = tk.Button(
+        #     master,
+        #     text="Visualize Feature",
+        #     command=self.visualize_feature,
+        #     state="disabled",
+        # )
+        # self.visualize_feature_button.pack()
+
+        self.canvas = tk.Canvas(master, width=100, height=100)
         self.canvas.pack()
 
-    def load_feature(self):
-        """Enables the visualize_feature_button"""
+    def mobilenetv2_model(self):
+        """Loads the MobileNet-V2 model"""
 
-        self.visualize_feature_button['state'] = 'normal'
+        pass
 
-    def visualize_feature(self):
-        """Visualizes a randomly generated feature using PIL and Tkinter"""
+    def vgg16_model(self):
+        """Loads the VGG-16 model"""
 
-        feature = self.get_feature()
-        img = Image.fromarray(np.uint8(feature))
-        img_tk = ImageTk.PhotoImage(img)
-        self.canvas.create_image(0, 0, anchor='nw', image=img_tk)
+        pass
 
-    def get_feature(self):
-        """Generates a random 3D feature"""
+    def resnet50_model(self):
+        """Loads the ResNet-50 model"""
 
-        feature = np.random.rand(500, 500, 3) * 255
-        return feature
+        pass
 
+    def inceptionv3_model(self):
+        """Loads the Inception-V3 model"""
+
+        pass
 
 class FeatureSelection:
     """A class that creates a UI for selecting a feature"""
@@ -99,13 +150,21 @@ class FeatureSelection:
         """
         self.master = master
 
-        self.load_model_button = ttk.Button(master, text="Load Model", command=self.load_model)
+        
+
+        self.load_model_button = ttk.Button(
+            master, text="Load Model", command=self.load_model
+        )
         self.load_model_button.pack()
 
-        self.load_image_button = ttk.Button(master, text="Load Image", command=self.load_image)
+        self.load_image_button = ttk.Button(
+            master, text="Load Image", command=self.load_image
+        )
         self.load_image_button.pack()
 
-        self.select_feature_button = ttk.Button(master, text="Select Feature", command=self.select_feature, state='disabled')
+        self.select_feature_button = ttk.Button(
+            master, text="Select Feature", command=self.select_feature, state="disabled"
+        )
         self.select_feature_button.pack()
 
         self.canvas = tk.Canvas(master, width=500, height=500)
@@ -129,42 +188,9 @@ class FeatureSelection:
         """
         pass
 
+
 class MainApplication:
-    """
-    A class that represents the main application of the feature engineering tool.
 
-    Attributes
-    ----------
-    master : object
-        The root window of the application.
-
-    notebook : object
-        The notebook widget that contains the tabs for model visualization, feature visualization, and feature selection.
-
-    model_tab : object
-        The tab that displays the model visualization interface.
-
-    feature_tab : object
-        The tab that displays the feature visualization interface.
-
-    selection_tab : object
-        The tab that displays the feature selection interface.
-
-    model_viz : object
-        An instance of the ModelVisualization class that represents the model visualization interface.
-
-    feature_viz : object
-        An instance of the FeatureVisualization class that represents the feature visualization interface.
-
-    feature_sel : object
-        An instance of the FeatureSelection class that represents the feature selection interface.
-
-    Methods
-    -------
-    __init__(self, master)
-        Initializes a new instance of the MainApplication class.
-
-    """
     def __init__(self, master):
         """
         Initializes a new instance of the MainApplication class.
@@ -178,18 +204,18 @@ class MainApplication:
         self.master = master
 
         self.notebook = ttk.Notebook(self.master)
-        self.notebook.pack(fill='both', expand=True)
+        self.notebook.pack(fill="both", expand=True)
 
-        self.data_tab = ttk.Frame(self.notebook)
-        self.feature_tab = ttk.Frame(self.notebook)
-        self.selection_tab = ttk.Frame(self.notebook)
+        self.data_tab = tk.Frame(self.notebook)
+        self.feature_extract_tab = tk.Frame(self.notebook)
+        self.selection_tab = tk.Frame(self.notebook)
 
-        self.notebook.add(self.data_tab, text='Dataset Import Window')
-        self.notebook.add(self.feature_tab, text='Feature Visualization')
-        self.notebook.add(self.selection_tab, text='Feature Selection')
+        self.notebook.add(self.data_tab, text="Dataset Import")
+        self.notebook.add(self.feature_extract_tab, text="Feature Extraction")
+        self.notebook.add(self.selection_tab, text="Feature Selection")
 
         self.data_import = DatasetImportWindow(self.data_tab)
-        self.feature_viz = FeatureVisualization(self.feature_tab)
+        self.feature_ext = FeatureExtractWindow(self.feature_extract_tab)
         self.feature_sel = FeatureSelection(self.selection_tab)
 
 
@@ -198,5 +224,3 @@ if __name__ == "__main__":
     root.title("Feature Engineering Tool")
     app = MainApplication(root)
     root.mainloop()
-
-
