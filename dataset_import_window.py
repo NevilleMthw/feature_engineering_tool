@@ -61,6 +61,7 @@ class DatasetImportWindow:
                 self.image_data_paths
             )
         )
+
     def get_directory(self):
         """Returns the directory path of the dataset"""
 
@@ -73,9 +74,11 @@ class DatasetImportWindow:
         
         self.dataset = datasets.ImageFolder(root=self.get_directory(), transform=self.preprocess_mobilenetv3())
 
+        self.dataloader = torch.utils.data.DataLoader(self.dataset, batch_size=32, shuffle=False)
+
         print("Dataset transformation complete. You can now move on to the next step.")
 
-        return self.dataset
+        return self.dataloader
 
     def preprocess_mobilenetv3(self):
         """Preprocesses the input image for MobileNet-V3"""

@@ -1,6 +1,8 @@
 import tkinter as tk
+import torchvision.models as models
 
-class FeatureExtractWindow():
+
+class FeatureExtractWindow:
     """A class that creates a UI for loading and visualizing a feature"""
 
     def __init__(self, master):
@@ -18,7 +20,9 @@ class FeatureExtractWindow():
         self.heading_Label.pack(pady=20)
 
         self.heading_Label = tk.Label(
-            master, text="Please choose from the following models, through which the features will be extracted.", font=("Arial", 20)
+            master,
+            text="Please choose from the following models, through which the features will be extracted.",
+            font=("Arial", 20),
         )
         self.heading_Label.pack(pady=20)
 
@@ -27,9 +31,7 @@ class FeatureExtractWindow():
         )
         self.load_mobilenet_model.pack(pady=10)
 
-        self.load_vgg_model = tk.Button(
-            master, text="VGG-16", command=self.vgg16_model
-        )
+        self.load_vgg_model = tk.Button(master, text="VGG-16", command=self.vgg16_model)
         self.load_vgg_model.pack(pady=10)
 
         # self.load_resnet_model = tk.Button(
@@ -43,15 +45,18 @@ class FeatureExtractWindow():
         self.load_inception_model.pack(pady=10)
 
         self.note_label = tk.Label(
-            master, text="Note: Only one model must be chosen.", font=("Arial", 15, "bold")
+            master,
+            text="Note: Only one model must be chosen.",
+            font=("Arial", 15, "bold"),
         )
         self.note_label.pack(pady=20)
 
-        self.model_imported_label = tk.Label(
-            master, text="Model imported, saved to memory. Proceed to next tab.", font=("Arial", 12)
+        self.model_Imported_Label = tk.Label(
+            master,
+            text="",
+            font=("Arial", 12),
         )
-        self.model_imported_label.pack(pady=10)
-
+        self.model_Imported_Label.pack(pady=10)
 
         # self.visualize_feature_button = tk.Button(
         #     master,
@@ -67,7 +72,15 @@ class FeatureExtractWindow():
     def mobilenetv2_model(self):
         """Loads the MobileNet-V2 model"""
 
-        pass
+        self.model = models.mobilenet_v3_small(pretrained=True, weights="IMAGENET1K_V1")
+
+        self.model.eval()
+
+        print("MobileNetV3 model loaded successfully.")
+
+        self.model_Imported_Label.config(text="MobileNetV3 model has been imported.")
+
+        return self.model
 
     def vgg16_model(self):
         """Loads the VGG-16 model"""
