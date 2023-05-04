@@ -1,6 +1,8 @@
 import tkinter as tk
+from tkinter import filedialog as fd
 
-class DatasetImportWindow():
+
+class DatasetImportWindow:
     """A class that creates a UI for loading and visualizing a model"""
 
     def __init__(self, master):
@@ -27,7 +29,7 @@ class DatasetImportWindow():
 
         self.data_Imported_Label = tk.Label(
             master,
-            text="Data Imported, saved to memory. Proceed to next tab.",
+            text="",
             font=("Arial", 12),
         )
         self.data_Imported_Label.pack(pady=10)
@@ -39,9 +41,22 @@ class DatasetImportWindow():
         self.canvas.pack()
 
     def load_data(self):
-        """Enables the visualize_model_button"""
+        """Loading the data from the directory"""
 
         self.data_Import_Button["state"] = "normal"
+
+        self.image_data_paths = fd.askdirectory()
+
+        self.data_Imported_Label.config(
+            text="Data Imported from {}.\nProceed to next tab.".format(
+                self.image_data_paths
+            )
+        )
+
+    def get_directory(self):
+        """Returns the directory path of the dataset"""
+
+        return self.image_data_paths
 
     # def get_model_graph(self):
     #     """Generates a random 3D graph"""
