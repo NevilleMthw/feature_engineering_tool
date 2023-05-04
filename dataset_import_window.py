@@ -1,6 +1,10 @@
 import tkinter as tk
+import torch
+import torchvision.models as models
+import os
 from tkinter import filedialog as fd
-
+from torchvision import datasets, transforms
+from PIL import Image
 
 class DatasetImportWindow:
     """A class that creates a UI for loading and visualizing a model"""
@@ -27,6 +31,11 @@ class DatasetImportWindow:
         )
         self.data_Import_Button.pack(anchor="center", pady=50)
 
+        self.data_Transform_Button = tk.Button(
+            master, text="Transform Data", command=self.get_data_transformed, width=15, height=2
+        )
+        self.data_Transform_Button.pack(anchor="center", pady=50)
+
         self.data_Imported_Label = tk.Label(
             master,
             text="",
@@ -48,15 +57,48 @@ class DatasetImportWindow:
         self.image_data_paths = fd.askdirectory()
 
         self.data_Imported_Label.config(
-            text="Data Imported from {}.\nProceed to next tab.".format(
+            text="Data Imported from {}.".format(
                 self.image_data_paths
             )
         )
-
     def get_directory(self):
         """Returns the directory path of the dataset"""
 
         return self.image_data_paths
+
+    def get_data_transformed(self):
+        """Returns the transformed dataset"""
+
+        self.data_Transform_Button["state"] = "normal"
+        
+        self.dataset = datasets.ImageFolder(root=self.get_directory(), transform=self.preprocess_mobilenetv3())
+
+        print("Dataset transformation complete. You can now move on to the next step.")
+
+        return self.dataset
+
+    def preprocess_mobilenetv3(self):
+        """Preprocesses the input image for MobileNet-V3"""
+
+        IMG_HEIGHT = 256
+        IMG_WIDTH = 256
+
+        self.transform = transforms.Compose(
+            [
+                transforms.ToTensor(),  # Convert the image to PyTorch Tensor data type
+                transforms.Resize(
+                    (IMG_HEIGHT, IMG_WIDTH), interpolation=Image.BILINEAR
+                ),  # Resize the images
+                transforms.CenterCrop(
+                    224
+                ),  # Crop the images to 224x224 about the center
+                transforms.Normalize(
+                    mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
+                ),  # Normalize the images
+            ]
+        )
+
+        return self.transform
 
     # def get_model_graph(self):
     #     """Generates a random 3D graph"""
