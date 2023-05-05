@@ -4,6 +4,7 @@ from tkinter import ttk
 from dataset_import_window import DatasetImportWindow
 from feature_extract_window import FeatureExtractWindow
 from feature_selection_window import FeatureSelection
+from visualization_dashboard_window import VisualizationDashboard
 
 class MainApplication:
 
@@ -25,14 +26,17 @@ class MainApplication:
         self.data_tab = tk.Frame(self.notebook)
         self.feature_extract_tab = tk.Frame(self.notebook)
         self.selection_tab = tk.Frame(self.notebook)
+        self.visualization_tab = tk.Frame(self.notebook)
 
         self.notebook.add(self.data_tab, text="Dataset Import")
         self.notebook.add(self.feature_extract_tab, text="Feature Extraction")
         self.notebook.add(self.selection_tab, text="Feature Selection")
+        self.notebook.add(self.visualization_tab, text="Visualization")
 
         self.data_import = DatasetImportWindow(self.data_tab)
         self.feature_ext = FeatureExtractWindow(self.feature_extract_tab)
         self.feature_sel = FeatureSelection(self.selection_tab)
+        self.visualization = VisualizationDashboard(self.visualization_tab)
 
 
 if __name__ == "__main__":
