@@ -6,7 +6,7 @@ from dataset_import_window import DatasetImportWindow
 class FeatureExtractWindow:
     """A class that creates a UI for loading and visualizing a feature"""
 
-    def __init__(self, master, dataloader):
+    def __init__(self, master):
         """
         Initializes the FeatureVisualization object.
 
@@ -15,7 +15,7 @@ class FeatureExtractWindow:
 
         self.master = master
 
-        self.dataset_import_window = DatasetImportWindow()
+        self.dataset_import_window = DatasetImportWindow(self.master)
 
         self.heading_Label = tk.Label(
             master, text="Feature Extraction Section", font=("Arial", 30)
