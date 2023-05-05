@@ -1,11 +1,12 @@
 import tkinter as tk
 import torchvision.models as models
-
+import torch
+from dataset_import_window import DatasetImportWindow
 
 class FeatureExtractWindow:
     """A class that creates a UI for loading and visualizing a feature"""
 
-    def __init__(self, master):
+    def __init__(self, master, dataloader):
         """
         Initializes the FeatureVisualization object.
 
@@ -13,6 +14,8 @@ class FeatureExtractWindow:
         """
 
         self.master = master
+
+        self.dataset_import_window = DatasetImportWindow()
 
         self.heading_Label = tk.Label(
             master, text="Feature Extraction Section", font=("Arial", 30)
@@ -96,3 +99,17 @@ class FeatureExtractWindow:
         """Loads the Inception-V3 model"""
 
         pass
+
+    def store_visualized_features(self):
+        """Stores the visualized features"""
+
+        self.features = []
+        self.labels = []
+        
+        self.dataloader = self.dataset_import_window.get_data_transformed()
+
+        for images, labels in self.dataloader:
+            with torch.no_grad():
+                self.outputs = self.model(images)
+                self.features.append(self.model(images))
+                self.labels.append(labels)
