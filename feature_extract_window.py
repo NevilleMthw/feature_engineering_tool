@@ -6,28 +6,26 @@ from dataset_import_window import DatasetImportWindow
 class FeatureExtractWindow:
     """A class that creates a UI for loading and visualizing a feature"""
 
-    def __init__(self, master):
+    def __init__(self, master, data: DatasetImportWindow):
         """
         Initializes the FeatureVisualization object.
 
         :param master: The parent widget.
         """
-
+        self.inherited_data = data.get_data_transformed() # This implementation
         self.master = master
 
-        self.dataset_import_window = DatasetImportWindow(self.master)
-
-        self.heading_Label = tk.Label(
+        self.feature_heading_Label = tk.Label(
             master, text="Feature Extraction Section", font=("Arial", 30)
         )
-        self.heading_Label.pack(pady=20)
+        self.feature_heading_Label.pack(pady=5)
 
-        self.heading_Label = tk.Label(
+        self.feature_choice_label = tk.Label(
             master,
             text="Please choose from the following models, through which the features will be extracted.",
             font=("Arial", 20),
         )
-        self.heading_Label.pack(pady=20)
+        self.feature_choice_label.pack(pady=20)
 
         self.load_mobilenet_model = tk.Button(
             master, text="MobileNet-V2", command=self.mobilenetv2_model
@@ -61,13 +59,13 @@ class FeatureExtractWindow:
         )
         self.model_Imported_Label.pack(pady=10)
 
-        # self.visualize_feature_button = tk.Button(
-        #     master,
-        #     text="Visualize Feature",
-        #     command=self.visualize_feature,
-        #     state="disabled",
-        # )
-        # self.visualize_feature_button.pack()
+        self.visualize_feature_button = tk.Button(
+            master,
+            text="Visualize Feature",
+            command=self.store_visualized_features,
+            state="disabled",
+        )
+        self.visualize_feature_button.pack()
 
         self.canvas = tk.Canvas(master, width=100, height=100)
         self.canvas.pack()
@@ -105,11 +103,11 @@ class FeatureExtractWindow:
 
         self.features = []
         self.labels = []
-        
-        self.dataloader = self.dataset_import_window.get_data_transformed()
 
-        for images, labels in self.dataloader:
+        for images, labels in self.inherited_data: # This line
             with torch.no_grad():
                 self.outputs = self.model(images)
                 self.features.append(self.model(images))
                 self.labels.append(labels)
+        
+        print('FEATURES STORED SUCCESSFULLY!')

@@ -17,9 +17,7 @@ class DatasetImportWindow:
         """
 
         self.master = master
-
-        self.image_paths = []
-        self.images = []
+        self.image_data_paths = None
 
         self.heading_Label = tk.Label(
             master, text="Data Import Section", font=("Arial", 30)
@@ -70,6 +68,9 @@ class DatasetImportWindow:
     def get_data_transformed(self):
         """Returns the transformed dataset"""
 
+        if self.image_data_paths is None:
+            return None
+
         self.data_Transform_Button["state"] = "normal"
         
         self.dataset = datasets.ImageFolder(root=self.get_directory(), transform=self.preprocess_mobilenetv3())
@@ -79,6 +80,11 @@ class DatasetImportWindow:
         print("Dataset transformation complete. You can now move on to the next step.")
 
         return self.dataloader
+
+    # def get_dataloader(self):
+    #     """Returns the dataloader"""
+
+    #     return self.dataloader
 
     def preprocess_mobilenetv3(self):
         """Preprocesses the input image for MobileNet-V3"""
@@ -102,9 +108,3 @@ class DatasetImportWindow:
         )
 
         return self.transform
-
-    # def get_model_graph(self):
-    #     """Generates a random 3D graph"""
-
-    #     graph = np.random.rand(500, 500, 3)
-    #     return graph

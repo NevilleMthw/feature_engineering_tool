@@ -34,7 +34,7 @@ class MainApplication:
         self.notebook.add(self.visualization_tab, text="Visualization")
 
         self.data_import = DatasetImportWindow(self.data_tab)
-        self.feature_ext = FeatureExtractWindow(self.feature_extract_tab)
+        self.feature_ext = FeatureExtractWindow(self.feature_extract_tab, self.data_import)
         self.feature_sel = FeatureSelection(self.selection_tab)
         self.visualization = VisualizationDashboard(self.visualization_tab)
 
