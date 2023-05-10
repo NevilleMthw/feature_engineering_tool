@@ -12,7 +12,7 @@ class FeatureExtractWindow:
 
         :param master: The parent widget.
         """
-        self.inherited_data = data.get_data_transformed() # This implementation
+        self.inherited_data = data.get_dataloader
         self.master = master
 
         self.feature_heading_Label = tk.Label(
@@ -61,9 +61,8 @@ class FeatureExtractWindow:
 
         self.visualize_feature_button = tk.Button(
             master,
-            text="Visualize Feature",
-            command=self.store_visualized_features,
-            state="disabled",
+            text="Store Features",
+            command=self.store_visualized_features
         )
         self.visualize_feature_button.pack()
 
@@ -104,10 +103,13 @@ class FeatureExtractWindow:
         self.features = []
         self.labels = []
 
-        for images, labels in self.inherited_data: # This line
+        for images, labels in self.inherited_data(): # This line
             with torch.no_grad():
+                print("Features being stored...")
                 self.outputs = self.model(images)
                 self.features.append(self.model(images))
                 self.labels.append(labels)
         
         print('FEATURES STORED SUCCESSFULLY!')
+        print(images.shape)
+        print(labels.shape)
