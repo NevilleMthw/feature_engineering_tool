@@ -81,10 +81,10 @@ class DatasetImportWindow:
 
         return self.dataloader
 
-    # def get_dataloader(self):
-    #     """Returns the dataloader"""
+    def get_dataloader(self):
+        """Returns the dataloader"""
 
-    #     return self.dataloader
+        return self.dataloader
 
     def preprocess_mobilenetv3(self):
         """Preprocesses the input image for MobileNet-V3"""
